@@ -42,6 +42,8 @@ export const RecepieEntity = sequelize.define<RecepieType>(
   },
   {
     tableName: 'recepies',
-    timestamps: false,
+    timestamps: true,
+    createdAt: 'created',
+    updatedAt: 'updated',
   },
 );
