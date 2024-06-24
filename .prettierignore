@@ -1,8 +1,6 @@
-# IDE
-.idea
-
-# OS
-.DS_Store
+# Repository
+*.md
+LICENSE
 
 # Logs
 logs
