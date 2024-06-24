@@ -44,7 +44,7 @@ export class RecepiesService {
         return res.status(404).json('Recepie not found.');
       }
 
-      const updateData: RecepieType = {
+      const updateData: UpdateRecepieDto = {
         name: dto.name ? dto.name : recepie.name,
         ingridients: dto.ingridients ? dto.ingridients : recepie.ingridients,
         steps: dto.steps ? dto.steps : recepie.steps,
