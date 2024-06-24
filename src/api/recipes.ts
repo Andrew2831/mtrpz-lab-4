@@ -9,4 +9,4 @@ recepiesController.post('/recepies', recepieService.createRecepie);
 recepiesController.patch('/recepies/:id', recepieService.updateRecepie);
 recepiesController.delete('/recepies/:id', recepieService.deleteRecepie);
 recepiesController.get('/recepies/:name', recepieService.findRecepie);
-recepiesController.get('/recepies/recommend/:ingridients');
+recepiesController.get('/recepies/recommend/:ingridients', recepieService.findByIngridients);

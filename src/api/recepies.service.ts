@@ -92,4 +92,25 @@ export class RecepiesService {
 
     return res.status(200).json({ recepies });
   }
+
+  findByIngridients = async(res: Response, req: Request) => {
+    const { ingridients } = req.params;
+    const parsedIngridients = ingridients.split('-');
+
+    const goodRecepies: RecepieType[] = [];
+
+    const recepies = await this.recepieRespository.findAll();
+
+    recepies.forEach(recepie => {
+      for(let i = 0; i < recepie.ingridients.split('-').length; i++) {
+        for(let j = 0; j < parsedIngridients.length; j++) {
+          if(recepie.ingridients[i] == parsedIngridients[j]) {
+            goodRecepies.push(recepie);
+          }
+        }
+      }
+    })
+
+    return res.status(200).json({ recepies: goodRecepies });
+  }
 }
