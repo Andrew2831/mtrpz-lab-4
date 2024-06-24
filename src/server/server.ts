@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { handleErrorSync, options } from "@stlib/utils";
 import pem from 'pem';
 import https from 'https';
+import { recepiesController } from '../api'
 
 export const app = express();
 
@@ -12,6 +13,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors());
 app.use(helmet);
+app.use(recepiesController);
 
 export const start = async () => {
   try {
