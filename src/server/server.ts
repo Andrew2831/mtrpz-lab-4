@@ -11,9 +11,9 @@ import { connectDb } from "../db";
 export const app = express();
 
 app.use(morgan('dev'));
-app.use(express.json());
 app.use(cors());
-app.use(helmet);
+app.use(helmet());
+app.use(express.json());
 app.use(recepiesController);
 
 export const start = async () => {

@@ -10,7 +10,7 @@ export class RecepiesService {
   constructor() {
   }
 
-  createRecepie = async (res: Response, req: Request) => {
+  createRecepie = async (req: Request, res: Response) => {
     try {
       const dto: CreateRecepieDto = req.body;
 
@@ -29,7 +29,7 @@ export class RecepiesService {
     }
   }
 
-  updateRecepie = async (res: Response, req: Request) => {
+  updateRecepie = async (req: Request, res: Response) => {
     try {
       const dto: UpdateRecepieDto = req.body;
       const { id } = req.params;
@@ -56,11 +56,11 @@ export class RecepiesService {
       return res.status(200).json('Recepie updated');
     } catch (e) {
       handleErrorSync(e);
-      return res.json('Error occured, see console logs.')
+      return res.json('Error occured, see console logs.').status(500);
     }
   }
 
-  deleteRecepie = async (res: Response, req: Request) => {
+  deleteRecepie = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
 
@@ -70,14 +70,14 @@ export class RecepiesService {
         },
       });
 
-      return res.status(204);
+      return res.status(204).json('Deleted');
     } catch (e) {
       handleErrorSync(e);
-      return res.json('Error occured, see console logs.')
+      return res.json('Error occured, see console logs.').status(500)
     }
   }
 
-  findRecepie = async (res: Response, req: Request) => {
+  findRecepie = async (req: Request, res: Response) => {
     const { name } = req.params;
 
     const recepies = await this.recepieRespository.findAll({
@@ -93,7 +93,7 @@ export class RecepiesService {
     return res.status(200).json({ recepies });
   }
 
-  findByIngridients = async(res: Response, req: Request) => {
+  findByIngridients = async(req: Request, res: Response) => {
     const { ingridients } = req.params;
     const parsedIngridients = ingridients.split('-');
 
@@ -104,12 +104,16 @@ export class RecepiesService {
     recepies.forEach(recepie => {
       for(let i = 0; i < recepie.ingridients.split('-').length; i++) {
         for(let j = 0; j < parsedIngridients.length; j++) {
-          if(recepie.ingridients[i] == parsedIngridients[j]) {
+          if(recepie.ingridients.split('-')[i] == parsedIngridients[j]) {
             goodRecepies.push(recepie);
           }
         }
       }
     })
+
+    if(!goodRecepies.length) {
+      return res.status(404).json('Not found any recepies.');
+    }
 
     return res.status(200).json({ recepies: goodRecepies });
   }
