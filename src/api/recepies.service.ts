@@ -76,4 +76,20 @@ export class RecepiesService {
       return res.json('Error occured, see console logs.')
     }
   }
+
+  findRecepie = async (res: Response, req: Request) => {
+    const { name } = req.params;
+
+    const recepies = await this.recepieRespository.findAll({
+      where: {
+        name,
+      },
+    });
+
+    if(!recepies.length) {
+      return res.status(404).json('Not found any recepy by this name.');
+    }
+
+    return res.status(200).json({ recepies });
+  }
 }
