@@ -5,8 +5,6 @@ import { Response, Request } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 export class RecepiesService {
-  private recepieRespository: typeof RecepieEntity = RecepieEntity;
-
   constructor() {
   }
 
@@ -14,7 +12,7 @@ export class RecepiesService {
     try {
       const dto: CreateRecepieDto = req.body;
 
-      const recepie = await this.recepieRespository.create({
+      const recepie = await RecepieEntity.create({
         id: uuidv4(),
         name: dto.name,
         ingridients: dto.ingridients,
@@ -25,7 +23,7 @@ export class RecepiesService {
       return res.status(201).json({ recepie });
     } catch (e) {
       handleErrorSync(e);
-      return res.json('Error occured, see console logs.')
+      return res.json('Error occured, see console logs.').status(500);
     }
   }
 
@@ -34,7 +32,7 @@ export class RecepiesService {
       const dto: UpdateRecepieDto = req.body;
       const { id } = req.params;
 
-      const recepie = await this.recepieRespository.findOne({
+      const recepie = await RecepieEntity.findOne({
         where: {
           id,
         },
@@ -64,7 +62,7 @@ export class RecepiesService {
     try {
       const { id } = req.params;
 
-      await this.recepieRespository.destroy({
+      await RecepieEntity.destroy({
         where: {
           id,
         },
@@ -80,7 +78,7 @@ export class RecepiesService {
   findRecepie = async (req: Request, res: Response) => {
     const { name } = req.params;
 
-    const recepies = await this.recepieRespository.findAll({
+    const recepies = await RecepieEntity.findAll({
       where: {
         name,
       },
@@ -99,7 +97,7 @@ export class RecepiesService {
 
     const goodRecepies: RecepieType[] = [];
 
-    const recepies = await this.recepieRespository.findAll();
+    const recepies = await RecepieEntity.findAll();
 
     recepies.forEach(recepie => {
       for(let i = 0; i < recepie.ingridients.split('-').length; i++) {
