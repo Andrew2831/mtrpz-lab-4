@@ -19,7 +19,7 @@ export const RecepieEntity = sequelize.define<RecepieType>(
   'Recepie',
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUIDV4,
       allowNull: false,
     },
     name: {
