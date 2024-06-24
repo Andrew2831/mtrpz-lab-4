@@ -7,6 +7,6 @@ const recepieService = new RecepiesService();
 
 recepiesController.post('/recepies', recepieService.createRecepie);
 recepiesController.patch('/recepies/:id', recepieService.updateRecepie);
-recepiesController.delete('/recepies/:id');
+recepiesController.delete('/recepies/:id', recepieService.deleteRecepie);
 recepiesController.get('/recepies/:name');
 recepiesController.get('/recepies/recommend/:ingridients');

@@ -59,4 +59,21 @@ export class RecepiesService {
       return res.json('Error occured, see console logs.')
     }
   }
+
+  deleteRecepie = async (res: Response, req: Request) => {
+    try {
+      const { id } = req.params;
+
+      await this.recepieRespository.destroy({
+        where: {
+          id,
+        },
+      });
+
+      return res.status(204);
+    } catch (e) {
+      handleErrorSync(e);
+      return res.json('Error occured, see console logs.')
+    }
+  }
 }
