@@ -6,6 +6,7 @@ import { handleErrorSync, options } from "@stlib/utils";
 import pem from 'pem';
 import https from 'https';
 import { recepiesController } from '../api'
+import { connectDb } from "../db";
 
 export const app = express();
 
@@ -17,6 +18,8 @@ app.use(recepiesController);
 
 export const start = async () => {
   try {
+    connectDb();
+
     const PORT: number = 3000;
     const HOST: string = 'localhost';
 
