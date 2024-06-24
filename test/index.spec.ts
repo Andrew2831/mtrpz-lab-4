@@ -1,11 +1,10 @@
 import supertest from 'supertest';
-import { sequelize } from '../src/db';
+import { RecepieType, sequelize } from '../src/db';
 import { app } from '../src/server';
 import { CreateRecepieDto, UpdateRecepieDto } from '../src/api/dto';
 
 describe('Recepies', () => {
-  let id: string = '';
-  let name: string = '';
+  let recepie: RecepieType;
 
   beforeAll(async () => {
     await sequelize.authenticate();
@@ -25,8 +24,7 @@ describe('Recepies', () => {
 
     const response = await supertest(app).post('/recepies').send(dto).expect(201);
 
-    id = response.body.recepie.id;
-    name = response.body.recepie.name;
+    recepie = response.body.recepie;
   })
 
   it('Update recepie', async () => {
@@ -34,11 +32,11 @@ describe('Recepies', () => {
       ingridients: '1-cup-milk-1-spoon-smth-a-lot-of-garlic',
     }
 
-    return supertest(app).patch(`/recepies/${id}`).send(dto).expect(200);
+    return supertest(app).patch(`/recepies/${recepie.id}`).send(dto).expect(200);
   })
 
   it('Get by name', async () => {
-    return supertest(app).get(`/recepies/${name}`).expect(200);
+    return supertest(app).get(`/recepies/${recepie.name}`).expect(200);
   })
 
   it('should throw if not found by name', async () => {
@@ -66,7 +64,7 @@ describe('Recepies', () => {
   })
 
   it('Should delete recepie', async () => {
-    const response = await supertest(app).delete(`/recepies/${id}`).expect(204);
+    const response = await supertest(app).delete(`/recepies/${recepie.id}`).expect(204);
     return response;
   })
 })
